@@ -2,6 +2,7 @@ package sitemap
 
 import (
 	"encoding/xml"
+
 	"github.com/Ja7ad/meilisitemap/config"
 )
 

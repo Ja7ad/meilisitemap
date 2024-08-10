@@ -3,11 +3,12 @@ package sitemap
 import (
 	"errors"
 	"fmt"
-	"github.com/Ja7ad/meilisitemap/config"
-	"github.com/Ja7ad/meilisitemap/utils"
 	"strings"
 	"time"
 	"unicode"
+
+	"github.com/Ja7ad/meilisitemap/config"
+	"github.com/Ja7ad/meilisitemap/utils"
 )
 
 func uniqueToSlug(unique string) string {
@@ -83,9 +84,7 @@ func imageFieldMapToSitemapImage(imgCfg *config.ImageConfig, doc map[string]inte
 
 	img.Loc = loc
 
-	var (
-		err error
-	)
+	var err error
 
 	if imgCfg.Title != "" {
 		img.Title, err = getStringValueFromDoc(imgCfg.Title, doc)
@@ -137,9 +136,7 @@ func videoFieldMapToSitemapVideo(vidCfg *config.VideoConfig, doc map[string]inte
 		vid.ContentLoc = loc
 	}
 
-	var (
-		err error
-	)
+	var err error
 
 	if vidCfg.PlayerAutoPlay != "" {
 		val := utils.PickByNestedKey(doc, vidCfg.PlayerAutoPlay)

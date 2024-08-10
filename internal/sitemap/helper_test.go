@@ -1,10 +1,11 @@
 package sitemap
 
 import (
+	"testing"
+
 	"github.com/Ja7ad/meilisitemap/config"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
-	"testing"
 )
 
 func TestUniqueToSlug(t *testing.T) {

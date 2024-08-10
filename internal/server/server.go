@@ -3,9 +3,10 @@ package server
 import (
 	"context"
 	"expvar"
-	"github.com/Ja7ad/meilisitemap/config"
 	"net/http"
 	"net/http/pprof"
+
+	"github.com/Ja7ad/meilisitemap/config"
 )
 
 type Server struct {

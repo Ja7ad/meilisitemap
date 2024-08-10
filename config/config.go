@@ -1,9 +1,10 @@
 package config
 
 import (
-	"gopkg.in/yaml.v3"
 	"net/url"
 	"os"
+
+	"gopkg.in/yaml.v3"
 )
 
 func New(configPath string) (*Config, error) {

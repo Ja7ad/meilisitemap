@@ -2,11 +2,12 @@ package server
 
 import (
 	"context"
-	"github.com/Ja7ad/meilisitemap/config"
-	"github.com/stretchr/testify/assert"
 	"net/http"
 	"testing"
 	"time"
+
+	"github.com/Ja7ad/meilisitemap/config"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestNewServer(t *testing.T) {

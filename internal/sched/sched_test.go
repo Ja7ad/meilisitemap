@@ -2,10 +2,11 @@ package sched
 
 import (
 	"context"
-	"github.com/Ja7ad/meilisitemap/internal/logger"
-	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"
+
+	"github.com/Ja7ad/meilisitemap/internal/logger"
+	"github.com/stretchr/testify/assert"
 )
 
 func TestSched(t *testing.T) {
@@ -55,7 +56,6 @@ func TestSchedNoJobs(t *testing.T) {
 	// Start and stop scheduler with no jobs
 	go s.Start()
 	time.Sleep(30 * time.Millisecond)
-
 }
 
 func TestSchedMultipleJobs(t *testing.T) {

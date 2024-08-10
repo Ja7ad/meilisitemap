@@ -1,8 +1,9 @@
 package utils
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 var nestedMapForTest = map[string]any{
@@ -28,7 +29,6 @@ var nestedMapForTest = map[string]any{
 }
 
 func Test_PickByNestedKey(t *testing.T) {
-
 	tests := []struct {
 		name     string
 		inputMap map[string]any

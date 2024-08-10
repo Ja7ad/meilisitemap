@@ -2,9 +2,10 @@ package sched
 
 import (
 	"context"
-	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"sync"
 	"time"
+
+	"github.com/Ja7ad/meilisitemap/internal/logger"
 )
 
 type Sched struct {

@@ -4,17 +4,18 @@ import (
 	"context"
 	"encoding/xml"
 	"fmt"
+	"net/url"
+	"os"
+	"path/filepath"
+	"sync"
+	"time"
+
 	"github.com/Ja7ad/meilisitemap/config"
 	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"github.com/Ja7ad/meilisitemap/internal/sched"
 	"github.com/Ja7ad/meilisitemap/internal/server"
 	"github.com/Ja7ad/meilisitemap/internal/sitemap"
 	"github.com/meilisearch/meilisearch-go"
-	"net/url"
-	"os"
-	"path/filepath"
-	"sync"
-	"time"
 )
 
 const (
@@ -63,7 +64,7 @@ func New(
 	s.sm = sitemap.New(s.baseUrl, s.stylesheet, sitemaps, s.logger)
 
 	if _, err := os.Stat(filepath.Join(s.storePath, s.indexsitemapPath)); os.IsNotExist(err) {
-		if err := os.Mkdir(filepath.Join(s.storePath, s.indexsitemapPath), 0777); err != nil {
+		if err := os.Mkdir(filepath.Join(s.storePath, s.indexsitemapPath), 0o777); err != nil {
 			return nil, err
 		}
 	} else if err != nil {
@@ -143,7 +144,6 @@ func (s *Sitemap) Start() error {
 			} else {
 				doFunc()
 			}
-
 		}()
 	}
 

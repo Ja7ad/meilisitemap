@@ -1,10 +1,11 @@
 package sitemap
 
 import (
-	"github.com/Ja7ad/meilisitemap/config"
-	"github.com/stretchr/testify/require"
 	"testing"
 	"time"
+
+	"github.com/Ja7ad/meilisitemap/config"
+	"github.com/stretchr/testify/require"
 )
 
 var docsForTest = []map[string]interface{}{

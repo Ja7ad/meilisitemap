@@ -4,16 +4,17 @@ import (
 	"bytes"
 	"encoding/xml"
 	"fmt"
+	"net/url"
+	"regexp"
+	"strconv"
+	"time"
+
 	"github.com/Ja7ad/meilisitemap/config"
 	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"github.com/Ja7ad/meilisitemap/utils"
 	"github.com/klauspost/compress/gzip"
 	"github.com/tdewolff/minify/v2"
 	minXml "github.com/tdewolff/minify/v2/xml"
-	"net/url"
-	"regexp"
-	"strconv"
-	"time"
 )
 
 const (
@@ -33,7 +34,8 @@ type Sitemap struct {
 }
 
 func New(baseUrl string, stylesheet config.Stylesheet,
-	sitemaps map[string]*config.SitemapConfig, log logger.Logger) *Sitemap {
+	sitemaps map[string]*config.SitemapConfig, log logger.Logger,
+) *Sitemap {
 	return &Sitemap{
 		baseUrl:    baseUrl,
 		indexes:    sitemaps,

@@ -3,13 +3,14 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/Ja7ad/meilisitemap/config"
-	"github.com/Ja7ad/meilisitemap/internal/generator"
-	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"os"
 	"os/signal"
 	"path/filepath"
 	"syscall"
+
+	"github.com/Ja7ad/meilisitemap/config"
+	"github.com/Ja7ad/meilisitemap/internal/generator"
+	"github.com/Ja7ad/meilisitemap/internal/logger"
 )
 
 const _defaultStoreDir = "sitemap"
@@ -41,7 +42,7 @@ func main() {
 	storePath := filepath.Join(cwd, _defaultStoreDir)
 
 	if _, err := os.Stat(storePath); os.IsNotExist(err) {
-		if err := os.Mkdir(storePath, 0777); err != nil {
+		if err := os.Mkdir(storePath, 0o777); err != nil {
 			log.Fatal("failed to create directory", "err", err)
 		}
 	} else if err != nil {
