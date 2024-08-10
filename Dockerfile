@@ -14,4 +14,4 @@ RUN mkdir /etc/meilisitemap/
 RUN mkdir /app
 COPY --from=builder /app/build/meilisitemap /app
 RUN chmod +x /app/meilisitemap
-CMD ["./app/meilisitemap",  "-config", "/etc/meilisitemap/config.yml"]
+CMD ["./app/meilisitemap",  "-config", "/etc/meilisitemap/config.yml", "-store", "/app/sitemap"]

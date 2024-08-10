@@ -5,7 +5,6 @@ import (
 	"flag"
 	"os"
 	"os/signal"
-	"path/filepath"
 	"syscall"
 
 	"github.com/Ja7ad/meilisitemap/config"
@@ -17,6 +16,7 @@ const _defaultStoreDir = "sitemap"
 
 func main() {
 	configPath := flag.String("config", "./config.json", "path to config file")
+	storePath := flag.String("store", _defaultStoreDir, "path to store sitemap")
 	flag.Parse()
 
 	ctx, cancel := context.WithCancel(context.Background())
@@ -34,15 +34,8 @@ func main() {
 
 	log.Info("configuration file loaded")
 
-	cwd, err := os.Getwd()
-	if err != nil {
-		log.Fatal("failed to get cwd", "err", err)
-	}
-
-	storePath := filepath.Join(cwd, _defaultStoreDir)
-
-	if _, err := os.Stat(storePath); os.IsNotExist(err) {
-		if err := os.Mkdir(storePath, 0o777); err != nil {
+	if _, err := os.Stat(*storePath); os.IsNotExist(err) {
+		if err := os.Mkdir(*storePath, 0o777); err != nil {
 			log.Fatal("failed to create directory", "err", err)
 		}
 	} else if err != nil {
@@ -50,7 +43,7 @@ func main() {
 	}
 	sm, err := generator.New(
 		ctx,
-		storePath,
+		*storePath,
 		cfg.General,
 		log,
 		cfg.Sitemaps,
