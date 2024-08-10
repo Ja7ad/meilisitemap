@@ -1,61 +1,3 @@
-# MeiliSitemap
-MeiliSitemap is sitemap generator for Meilisearch indexes and support normal, video, news and image structure.
-
-## Features
-
-- Create sitemap from multiple index
-- Support gzip compression
-- Local file server for sitemap
-- Support custom name for sitemaps (default is index name)
-- Support sitemap stylesheets
-- Support custom path for sitemaps
-- Support filters for get specific documents
-- Support live update sitemap with background scheduler
-- Support normal, video, image and news sitemap type
-
-## Installation
-
-You can install `meilisitemap` using different methods.
-
-### Release
-
-Download the latest release from [here](https://github.com/Ja7ad/meilisitemap/releases).
-
-### Go Installation
-
-Install the package using Go:
-
-```shell
-go install github.com/Ja7ad/meilisitemap/cmd/meilisitemap@latest
-```
-
-### Docker
-
-Run `meilisitemap` with real-time sync using Docker:
-
-- Docker
-
-```shell
-docker run --rm -it -v ./config.yml:/etc/meilisitemap/config.yml --name meilisitemap ja7adr/meilisitemap
-```
-
-- Docker compose
-
-```yaml
-version: "3"
-services:
-  meilibridge:
-    image: ja7adr/meilisitemap:latest
-    volumes:
-      - ./config.yml:/etc/meilisitemap/config.yml
-    restart: always
-```
-
-## Example Configuration
-
-example configuration for run meilisitemap
-
-```yaml
 general:
   # base url is your site base url for document link or loc (require)
   base_url: https://example.com
@@ -233,4 +175,3 @@ sitemaps:
         title: news_title             # Title of the news article
         keywords: news_keywords       # Keywords for the news article
         description: news_description # Description of the news article
-```
