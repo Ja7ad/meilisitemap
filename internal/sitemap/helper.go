@@ -3,6 +3,7 @@ package sitemap
 import (
 	"errors"
 	"fmt"
+	"net/url"
 	"strings"
 	"time"
 	"unicode"
@@ -21,6 +22,8 @@ func uniqueToSlug(unique string) string {
 			builder.WriteRune(char)
 		} else if unicode.IsSpace(char) {
 			builder.WriteRune('-')
+		} else {
+			builder.WriteString(url.QueryEscape(string(char)))
 		}
 	}
 

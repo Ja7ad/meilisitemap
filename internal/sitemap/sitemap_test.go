@@ -1,6 +1,7 @@
 package sitemap
 
 import (
+	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"testing"
 	"time"
 
@@ -119,7 +120,7 @@ func TestSitemap_CreateSitemap(t *testing.T) {
 
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			sm := New(test.baseUrl, test.stylesheet, test.sitemaps)
+			sm := New(test.baseUrl, test.stylesheet, test.sitemaps, logger.DefaultLogger)
 			res, err := sm.CreateSitemap("index1", docsForTest)
 			require.NoError(t, err)
 			require.NotNil(t, res)

@@ -17,6 +17,7 @@ func TestUniqueToSlug(t *testing.T) {
 		{"  Leading and trailing spaces  ", "leading-and-trailing-spaces"},
 		{"NoSpaces", "nospaces"},
 		{"--Leading and trailing--", "leading-and-trailing"},
+		{"Carpet & Rug", "carpet-%26-rug"},
 	}
 
 	for _, test := range tests {
