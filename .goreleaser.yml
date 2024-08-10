@@ -1,0 +1,67 @@
+builds:
+  - id: meilisitemap
+    main: ./main.go
+    dir: ./cmd/meilisitemap
+    binary: meilisitemap
+    env:
+      - CGO_ENABLED=0
+    goos:
+      - linux
+      - windows
+      - darwin
+    goarch:
+      - amd64
+      - arm
+      - arm64
+    goarm:
+      - "6"
+      - "7"
+    ignore:
+      - goos: linux
+        goarch: arm
+        goarm: "7"
+      - goos: windows
+        goarch: arm
+        goarm: "7"
+      - goos: android
+        goarch: arm
+        goarm: "6"
+      - goos: android
+        goarch: arm
+        goarm: "7"
+      - goos: android
+        goarch: "386"
+
+archives:
+  - builds:
+      - meilisitemap
+    name_template: 'meilisitemap_{{ .Version }}_{{ .Os }}_{{ .Arch }}'
+    format_overrides:
+      - goos: windows
+        format: zip
+    files:
+      - LICENSE
+      - config.example.yml
+      - README.md
+
+nfpms:
+  - license: MIT
+    maintainer: Javad Rajabzadeh <ja7ad@live.com>
+    homepage: https://meilisitemap.javad.dev
+    bindir: /usr/local/bin
+    description: MeiliSitemap (meilisearch sitemap generator)
+    formats:
+      - deb
+      - rpm
+
+checksum:
+  name_template: 'meilisitemap_checksums.txt'
+
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+      - Merge pull request
+      - Merge branch
