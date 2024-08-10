@@ -1,0 +1,8 @@
+version: "3"
+services:
+  meilisitemap:
+    image: ja7adr/meilisitemap:latest
+    volumes:
+      - ./config.yml:/etc/meilisitemap/config.yml
+      -
+    restart: always
