@@ -4,5 +4,5 @@ services:
     image: ja7adr/meilisitemap:latest
     volumes:
       - ./config.yml:/etc/meilisitemap/config.yml
-      -
+      - ./sitemap:/app/sitemap
     restart: always
