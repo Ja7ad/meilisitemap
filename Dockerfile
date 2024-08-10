@@ -10,7 +10,7 @@ RUN make build
 
 FROM alpine
 RUN apk --no-cache add ca-certificates tzdata
-RUN mkdir /etc/meilibridge/
+RUN mkdir /etc/meilisitemap/
 COPY --from=builder /app/build/meilisitemap /usr/local/bin
 RUN chmod +x /usr/local/bin
 CMD ["meilisitemap",  "-config", "/etc/meilisitemap/config.yml"]
