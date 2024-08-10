@@ -2,7 +2,7 @@ package sched
 
 import (
 	"context"
-	"github.com/Ja7ad/meilibridge/pkg/logger"
+	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"github.com/stretchr/testify/assert"
 	"testing"
 	"time"

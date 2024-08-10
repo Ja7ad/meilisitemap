@@ -3,7 +3,6 @@ module github.com/Ja7ad/meilisitemap
 go 1.22.5
 
 require (
-	github.com/Ja7ad/meilibridge v0.5.0
 	github.com/klauspost/compress v1.17.9
 	github.com/meilisearch/meilisearch-go v0.27.2
 	github.com/tdewolff/minify/v2 v2.20.37

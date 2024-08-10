@@ -3,9 +3,9 @@ package main
 import (
 	"context"
 	"flag"
-	"github.com/Ja7ad/meilibridge/pkg/logger"
 	"github.com/Ja7ad/meilisitemap/config"
 	"github.com/Ja7ad/meilisitemap/internal/generator"
+	"github.com/Ja7ad/meilisitemap/internal/logger"
 	"os"
 	"os/signal"
 	"path/filepath"
