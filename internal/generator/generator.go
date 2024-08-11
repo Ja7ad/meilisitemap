@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/xml"
 	"fmt"
+	"log"
 	"net/url"
 	"os"
 	"path/filepath"
@@ -105,7 +106,6 @@ reconnect:
 func (s *Sitemap) Start() error {
 	doneCh := make(chan struct{})
 	sets := make([]string, 0)
-	setCh := make(chan string)
 	isLive := false
 
 	for idx, sm := range s.sitemaps {
@@ -137,7 +137,13 @@ func (s *Sitemap) Start() error {
 					s.logger.Fatal("failed to save sitemap", "index", idx, "err", err.Error())
 				}
 
-				setCh <- sAddr
+				if !existsItem(sets, sAddr) {
+					sets = append(sets, sAddr)
+
+					if err := s.createSitemapIndex(sets); err != nil {
+						log.Fatal("failed to create sitemap.xml", "err", err.Error())
+					}
+				}
 
 				s.logger.Info("created sitemap for index", "index", idx)
 			}
@@ -152,18 +158,6 @@ func (s *Sitemap) Start() error {
 			}
 		}()
 	}
-
-	go func(log logger.Logger) {
-		for set := range setCh {
-			if !existsItem(sets, set) {
-				sets = append(sets, set)
-
-				if err := s.createSitemapIndex(sets); err != nil {
-					log.Fatal("failed to create sitemap.xml", "err", err.Error())
-				}
-			}
-		}
-	}(s.logger)
 
 	if s.server != nil {
 		go func() {
@@ -199,7 +193,6 @@ func (s *Sitemap) Start() error {
 	}
 
 	<-doneCh
-	close(setCh)
 
 	return nil
 }
