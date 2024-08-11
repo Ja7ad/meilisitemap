@@ -8,7 +8,7 @@ type Config struct {
 }
 
 type GeneralConfig struct {
-	BaseURL          string             `yaml:"base_url"`
+	BaseIndexURL     string             `yaml:"base_index_url"`
 	IndexSitemapPath string             `yaml:"indexsitemap_path"`
 	FileName         string             `yaml:"file_name"`
 	Prefix           string             `yaml:"prefix"`
@@ -38,7 +38,7 @@ type SitemapConfig struct {
 	HTMLSitemap     bool            `yaml:"html_sitemap"`
 	RSS             bool            `yaml:"rss"`
 	Filter          string          `yaml:"filter"`
-	BasePath        string          `yaml:"base_path"`
+	BaseAddress     string          `yaml:"base_address"`
 	Compress        bool            `yaml:"compress"`
 	SitemapFileName string          `yaml:"sitemap_file_name"`
 	LiveUpdate      *LiveConfig     `yaml:"live_update"`

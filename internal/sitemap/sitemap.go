@@ -28,17 +28,15 @@ const (
 )
 
 type Sitemap struct {
-	baseUrl    string
 	indexes    map[string]*config.SitemapConfig
 	stylesheet config.Stylesheet
 	log        logger.Logger
 }
 
-func New(baseUrl string, stylesheet config.Stylesheet,
+func New(stylesheet config.Stylesheet,
 	sitemaps map[string]*config.SitemapConfig, log logger.Logger,
 ) *Sitemap {
 	return &Sitemap{
-		baseUrl:    baseUrl,
 		indexes:    sitemaps,
 		stylesheet: stylesheet,
 		log:        log,
@@ -116,16 +114,16 @@ func (s *Sitemap) urlMaker(doc map[string]any, cfg *config.SitemapConfig) (*URL,
 		if slug == "" {
 			return nil, fmt.Errorf("failed to get value slug field %s", cfg.FieldMap.UniqueField)
 		}
-		if !strings.HasSuffix(cfg.BasePath, "=") {
-			loc, err = url.JoinPath(s.baseUrl, cfg.BasePath, slug)
+		if !strings.HasSuffix(cfg.BaseAddress, "=") {
+			loc, err = url.JoinPath(cfg.BaseAddress, slug)
 		} else {
-			loc = fmt.Sprintf("%s%s%s", s.baseUrl, cfg.BasePath, slug)
+			loc = fmt.Sprintf("%s%s", cfg.BaseAddress, slug)
 		}
 	case int:
-		if !strings.HasSuffix(cfg.BasePath, "=") {
-			loc, err = url.JoinPath(s.baseUrl, cfg.BasePath, strconv.Itoa(unique.(int)))
+		if !strings.HasSuffix(cfg.BaseAddress, "=") {
+			loc, err = url.JoinPath(cfg.BaseAddress, strconv.Itoa(unique.(int)))
 		} else {
-			loc = fmt.Sprintf("%s%s%s", s.baseUrl, cfg.BasePath, cfg.BasePath)
+			loc = fmt.Sprintf("%s%s", cfg.BaseAddress, strconv.Itoa(unique.(int)))
 		}
 	default:
 		return nil, fmt.Errorf("not supported unique field %s, type is %T", cfg.FieldMap.UniqueField, unique)

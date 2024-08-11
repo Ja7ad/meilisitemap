@@ -27,7 +27,7 @@ const (
 )
 
 type Sitemap struct {
-	baseUrl          string
+	baseIndexURL     string
 	storePath        string
 	indexsitemapPath string
 	fileName         string
@@ -54,7 +54,7 @@ func New(
 	sitemaps map[string]*config.SitemapConfig,
 ) (*Sitemap, error) {
 	s := new(Sitemap)
-	s.baseUrl = general.BaseURL
+	s.baseIndexURL = general.BaseIndexURL
 	s.storePath = storePath
 	s.indexsitemapPath = general.IndexSitemapPath
 	s.fileName = general.FileName
@@ -63,7 +63,7 @@ func New(
 	s.logger = logger
 	s.ctx, s.cancelFunc = context.WithCancel(ctx)
 	s.sched = sched.New(ctx, s.logger)
-	s.sm = sitemap.New(s.baseUrl, s.stylesheet, sitemaps, s.logger)
+	s.sm = sitemap.New(s.stylesheet, sitemaps, s.logger)
 
 	if _, err := os.Stat(filepath.Join(s.storePath, s.indexsitemapPath)); os.IsNotExist(err) {
 		if err := os.Mkdir(filepath.Join(s.storePath, s.indexsitemapPath), 0o777); err != nil {
@@ -219,7 +219,7 @@ func (s *Sitemap) createSitemapIndex(setsFilename []string) error {
 	for _, fn := range setsFilename {
 		smLoc := new(sitemap.SMLoc)
 
-		loc, err := url.JoinPath(s.baseUrl, s.indexsitemapPath, fn)
+		loc, err := url.JoinPath(s.baseIndexURL, s.indexsitemapPath, fn)
 		if err != nil {
 			return err
 		}

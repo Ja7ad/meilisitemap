@@ -1,6 +1,6 @@
 general:
-  # base url is your site base url for document link or loc (require)
-  base_url: https://example.com
+  # base index url is your sitemap index sitemaps link (require)
+  base_index_url: https://example.com
   # indexsitemap_base_url set sitemap link of each index and put in sitemap.xml file as sitemapindex.
   # base_url + indexsitemap_path = index_sitemap_link
   # for example https://example.com/sitemaps/movies.xml
@@ -45,8 +45,8 @@ sitemaps:
     # https://www.meilisearch.com/docs/learn/filtering_and_sorting/filter_expression_reference
     # default is null and make sitemap for all documents
     filter: "genre = horror & imdb_rate > 5"
-    # base path is document group path, final address base_url + base_path + unique_field = loc or link (require)
-    base_path: "/movies/"
+    # base path is document group path, final address base_address + unique_field = loc or link (require)
+    base_address: "https://example.com/movies/"
     # compress with gzip
     # for example result is movies.gz
     compress: false
@@ -124,8 +124,8 @@ sitemaps:
     html_sitemap: true
     # make rss feed
     rss: false
-    # base path is item address base_url + base_path + unique_field = loc or link
-    base_path: "/categories/"
+    # base path is item address base_address + unique_field = loc or link
+    base_address: "https://example.com/categories/"
     # compress with gzip
     compress: true
 

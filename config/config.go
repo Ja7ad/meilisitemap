@@ -29,13 +29,13 @@ func (c *Config) Validate() error {
 		return ErrMissingGeneralConfig
 	}
 
-	if c.General.BaseURL == "" {
-		return ErrInvalidBaseURL
+	if c.General.BaseIndexURL == "" {
+		return ErrInvalidBaseIndexURL
 	}
 
-	_, err := url.Parse(c.General.BaseURL)
+	_, err := url.Parse(c.General.BaseIndexURL)
 	if err != nil {
-		return ErrInvalidBaseURL
+		return ErrInvalidBaseIndexURL
 	}
 
 	if c.General.Stylesheet != "" {
@@ -72,8 +72,8 @@ func validateSitemapConfig(name string, sitemap *SitemapConfig) error {
 		return ErrInvalidSitemapConfig
 	}
 
-	if sitemap.BasePath == "" {
-		return ErrMissingBasePathSitemap
+	if sitemap.BaseAddress == "" {
+		return ErrMissingBaseAddressSitemap
 	}
 
 	if sitemap.FieldMap == nil {

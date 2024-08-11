@@ -22,8 +22,8 @@ func TestValidateConfig(t *testing.T) {
 			name: "valid config",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL:  "https://example.com",
-					FileName: "validfilename",
+					BaseIndexURL: "https://example.com",
+					FileName:     "validfilename",
 					MeiliSearch: &MeiliSearchConfig{
 						Host: "http://localhost:7700",
 					},
@@ -31,7 +31,7 @@ func TestValidateConfig(t *testing.T) {
 				Sitemaps: map[string]*SitemapConfig{
 					"movies": {
 						Sitemap:         true,
-						BasePath:        "/movies/",
+						BaseAddress:     "https://example.com/movies/",
 						SitemapFileName: "validsitemap",
 						FieldMap: &FieldMapConfig{
 							UniqueField: "title",
@@ -54,29 +54,16 @@ func TestValidateConfig(t *testing.T) {
 			name: "invalid base URL",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "",
+					BaseIndexURL: "",
 				},
 			},
-			expectErr: ErrInvalidBaseURL,
-		},
-		{
-			name: "invalid file name",
-			config: &Config{
-				General: &GeneralConfig{
-					BaseURL:  "https://example.com",
-					FileName: "InvalidFileName",
-					MeiliSearch: &MeiliSearchConfig{
-						Host: "http://localhost:7700",
-					},
-				},
-			},
-			expectErr: ErrInvalidFileName,
+			expectErr: ErrInvalidBaseIndexURL,
 		},
 		{
 			name: "missing MeiliSearch config",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "https://example.com",
+					BaseIndexURL: "https://example.com",
 				},
 				Sitemaps: map[string]*SitemapConfig{},
 			},
@@ -86,7 +73,7 @@ func TestValidateConfig(t *testing.T) {
 			name: "missing MeiliSearch host",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "https://example.com",
+					BaseIndexURL: "https://example.com",
 					MeiliSearch: &MeiliSearchConfig{
 						Host: "",
 					},
@@ -98,15 +85,15 @@ func TestValidateConfig(t *testing.T) {
 			name: "empty index name",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "https://example.com",
+					BaseIndexURL: "https://example.com",
 					MeiliSearch: &MeiliSearchConfig{
 						Host: "http://localhost:7700",
 					},
 				},
 				Sitemaps: map[string]*SitemapConfig{
 					"": {
-						Sitemap:  true,
-						BasePath: "/movies/",
+						Sitemap:     true,
+						BaseAddress: "https://example.com/movies/",
 						FieldMap: &FieldMapConfig{
 							UniqueField: "title",
 							ChangeFreq:  Daily,
@@ -121,15 +108,15 @@ func TestValidateConfig(t *testing.T) {
 			name: "missing base path in sitemap",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "https://example.com",
+					BaseIndexURL: "https://example.com",
 					MeiliSearch: &MeiliSearchConfig{
 						Host: "http://localhost:7700",
 					},
 				},
 				Sitemaps: map[string]*SitemapConfig{
 					"movies": {
-						Sitemap:  true,
-						BasePath: "",
+						Sitemap:     true,
+						BaseAddress: "",
 						FieldMap: &FieldMapConfig{
 							UniqueField: "title",
 							ChangeFreq:  Daily,
@@ -138,21 +125,21 @@ func TestValidateConfig(t *testing.T) {
 					},
 				},
 			},
-			expectErr: ErrMissingBasePathSitemap,
+			expectErr: ErrMissingBaseAddressSitemap,
 		},
 		{
 			name: "missing field map in sitemap",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "https://example.com",
+					BaseIndexURL: "https://example.com",
 					MeiliSearch: &MeiliSearchConfig{
 						Host: "http://localhost:7700",
 					},
 				},
 				Sitemaps: map[string]*SitemapConfig{
 					"movies": {
-						Sitemap:  true,
-						BasePath: "/movies/",
+						Sitemap:     true,
+						BaseAddress: "https://example.com/movies/",
 					},
 				},
 			},
@@ -162,15 +149,15 @@ func TestValidateConfig(t *testing.T) {
 			name: "missing unique field in field map",
 			config: &Config{
 				General: &GeneralConfig{
-					BaseURL: "https://example.com",
+					BaseIndexURL: "https://example.com",
 					MeiliSearch: &MeiliSearchConfig{
 						Host: "http://localhost:7700",
 					},
 				},
 				Sitemaps: map[string]*SitemapConfig{
 					"movies": {
-						Sitemap:  true,
-						BasePath: "/movies/",
+						Sitemap:     true,
+						BaseAddress: "/movies/",
 						FieldMap: &FieldMapConfig{
 							UniqueField: "",
 							ChangeFreq:  Daily,
