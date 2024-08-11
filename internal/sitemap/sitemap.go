@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"regexp"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/Ja7ad/meilisitemap/config"
@@ -115,9 +116,17 @@ func (s *Sitemap) urlMaker(doc map[string]any, cfg *config.SitemapConfig) (*URL,
 		if slug == "" {
 			return nil, fmt.Errorf("failed to get value slug field %s", cfg.FieldMap.UniqueField)
 		}
-		loc, err = url.JoinPath(s.baseUrl, cfg.BasePath, slug)
+		if !strings.HasSuffix(cfg.BasePath, "=") {
+			loc, err = url.JoinPath(s.baseUrl, cfg.BasePath, slug)
+		} else {
+			loc = fmt.Sprintf("%s%s%s", s.baseUrl, cfg.BasePath, slug)
+		}
 	case int:
-		loc, err = url.JoinPath(s.baseUrl, cfg.BasePath, strconv.Itoa(unique.(int)))
+		if !strings.HasSuffix(cfg.BasePath, "=") {
+			loc, err = url.JoinPath(s.baseUrl, cfg.BasePath, strconv.Itoa(unique.(int)))
+		} else {
+			loc = fmt.Sprintf("%s%s%s", s.baseUrl, cfg.BasePath, cfg.BasePath)
+		}
 	default:
 		return nil, fmt.Errorf("not supported unique field %s, type is %T", cfg.FieldMap.UniqueField, unique)
 	}
