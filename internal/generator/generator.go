@@ -38,8 +38,10 @@ type Sitemap struct {
 	sitemaps         map[string]*config.SitemapConfig
 	logger           logger.Logger
 	wg               sync.WaitGroup
+	mu               sync.Mutex
 	sched            *sched.Sched
 	ctx              context.Context
+	cancelFunc       context.CancelFunc
 	server           *server.Server
 	sm               *sitemap.Sitemap
 }
@@ -59,7 +61,7 @@ func New(
 	s.prefix = general.Prefix
 	s.stylesheet = general.Stylesheet
 	s.logger = logger
-	s.ctx = ctx
+	s.ctx, s.cancelFunc = context.WithCancel(ctx)
 	s.sched = sched.New(ctx, s.logger)
 	s.sm = sitemap.New(s.baseUrl, s.stylesheet, sitemaps, s.logger)
 
@@ -104,6 +106,7 @@ func (s *Sitemap) Start() error {
 	doneCh := make(chan struct{})
 	sets := make([]string, 0)
 	setCh := make(chan string)
+	isLive := false
 
 	for idx, sm := range s.sitemaps {
 		if err := s.existsIndex(idx); err != nil {
@@ -140,6 +143,9 @@ func (s *Sitemap) Start() error {
 			}
 
 			if sm.LiveUpdate != nil && sm.LiveUpdate.Enabled {
+				s.mu.Lock()
+				isLive = true
+				s.mu.Unlock()
 				s.sched.AddJob(doFunc, time.Duration(sm.LiveUpdate.Interval)*time.Second)
 			} else {
 				doFunc()
@@ -178,9 +184,15 @@ func (s *Sitemap) Start() error {
 	go func() {
 		<-s.ctx.Done()
 		doneCh <- struct{}{}
+		close(doneCh)
 	}()
 
 	s.wg.Wait()
+
+	if s.server == nil && !isLive {
+		s.cancelFunc()
+		s.logger.Info("completed create sitemap")
+	}
 
 	if s.sched.Len() != 0 {
 		go s.sched.Start()
