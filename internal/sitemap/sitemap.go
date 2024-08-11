@@ -68,7 +68,9 @@ func (s *Sitemap) CreateSitemap(index string, docs []map[string]any) ([]byte, er
 		if err != nil {
 			return nil, err
 		}
-		sitemap.URLs = append(sitemap.URLs, u)
+		if !isExistsLoc(u, sitemap.URLs) {
+			sitemap.URLs = append(sitemap.URLs, u)
+		}
 	}
 
 	xmlData, err := marshal(sitemap)
@@ -195,4 +197,13 @@ func marshal(u *URLSet) ([]byte, error) {
 		return nil, fmt.Errorf("error marshaling XML: %v", err)
 	}
 	return b, nil
+}
+
+func isExistsLoc(item *URL, items []*URL) bool {
+	for _, u := range items {
+		if item.Loc == u.Loc {
+			return true
+		}
+	}
+	return false
 }
