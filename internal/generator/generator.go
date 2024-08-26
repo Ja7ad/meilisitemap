@@ -35,7 +35,7 @@ type Sitemap struct {
 	prefix           string
 	stylesheet       config.Stylesheet
 	pprof            *config.PprofConfig
-	meili            *meilisearch.Client
+	meili            meilisearch.ServiceManager
 	sitemaps         map[string]*config.SitemapConfig
 	logger           logger.Logger
 	wg               sync.WaitGroup
@@ -79,10 +79,7 @@ func New(
 	}
 
 reconnect:
-	client := meilisearch.NewClient(meilisearch.ClientConfig{
-		Host:   general.MeiliSearch.Host,
-		APIKey: general.MeiliSearch.APIKey,
-	})
+	client := meilisearch.New(general.MeiliSearch.Host, meilisearch.WithAPIKey(general.MeiliSearch.APIKey))
 
 	if !client.IsHealthy() {
 		s.logger.Warn("failed connecting to Meilisearch, try connect...")
