@@ -66,7 +66,8 @@ func (s *Sitemap) CreateSitemap(index string, docs []map[string]any) ([]byte, er
 	for _, doc := range docs {
 		u, err := s.urlMaker(doc, idxCfg)
 		if err != nil {
-			return nil, err
+			s.log.Warn(err.Error())
+			continue
 		}
 		if !isExistsLoc(u, sitemap.URLs) {
 			sitemap.URLs = append(sitemap.URLs, u)
